@@ -92,6 +92,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
             if(response.isSuccessful()){
                 JsonReader reader = new JsonReader(response.body().charStream());
                     readJsonData(reader);
+                //testing commit
             }else{
                 Toast.makeText(ctx , " Couldn't read data ",Toast.LENGTH_LONG).show();
             }
