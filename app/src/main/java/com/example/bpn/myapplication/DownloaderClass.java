@@ -25,15 +25,25 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
     OkHttpClient client = new OkHttpClient();
     Context ctx;
     PassData callback ;
+    PassData callback1;
+    FragementTwo fragement ;
 
-    DownloaderClass(Context ctx, Main2Activity callback){
+    public DownloaderClass( PassData callback ,Context ctx){
         this.ctx = ctx;
-        this.callback = (PassData)callback;
+        this.callback = callback;
     }
+
 
     DownloaderClass(Context ctx){
         this.ctx = ctx;
         //this.callback = callback;
+    }
+
+    public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne,Context ctx){
+        fragement = fragementTwo;
+        this.callback = fragement;
+        this.callback1 = fragementOne;
+        this.ctx = ctx;
     }
 
     void readJsonObject( JsonReader reader )throws Exception{
@@ -112,12 +122,14 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //        mIntent.putStringArrayListExtra("ParsedData",arr);
 //        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
 
-        Intent mIntent1 = new Intent("passDataToFragement1");
-        mIntent1.putStringArrayListExtra("ParsedData",arr);
-        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
+//        Intent mIntent1 = new Intent("passDataToFragement1");
+//        mIntent1.putStringArrayListExtra("ParsedData",arr);
+//        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
 
         //Log.d("data",arr.toString());
-        // callback.setData(arr);
+
+        callback.receiveDataFromDownloadClass(arr);
+        callback1.receiveDataFromDownloadClass(arr);
 
         return null;
     }

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,13 +26,13 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class Main2Activity extends AppCompatActivity  implements  FragementTwo.secondFragementInsterface ,FragementOne.OnLineSelectedListener{
+public class Main2Activity extends AppCompatActivity  {
     ArrayAdapter<String> arrayAdapter;
     String data[] = null;
     ListView mListView;
     List list;
-    Thread t;
     PassData callback;
+    PassData callback1;
 
     FragementOne mfragementOne;
     FragementTwo mfrFragementTwo ;
@@ -42,9 +43,10 @@ public class Main2Activity extends AppCompatActivity  implements  FragementTwo.s
 
         setContentView(R.layout.activity_main2);
 
-        Main2Activity m = this;
-       mfragementOne = new FragementOne();
+
+        mfragementOne = new FragementOne();
         mfrFragementTwo = new FragementTwo();
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -56,55 +58,27 @@ public class Main2Activity extends AppCompatActivity  implements  FragementTwo.s
 //        mListView = (ListView) findViewById(R.id.listView);
            list = new ArrayList<>();
 
-        DownloaderClass downloaderClass = new DownloaderClass(getApplicationContext()  );
-        downloaderClass.execute();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
+        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo,mfragementOne,getApplicationContext());
+       downloaderClass.execute();
+      //  LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
 //        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);
 //        mListView.setAdapter(arrayAdapter);
     }
 
-    private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-           ArrayList<String> data = intent.getStringArrayListExtra("ParsedData");
-            setData(data);
-        }
-    };
 
 
-    public void setData(ArrayList a) {
-        Log.d("abc", a.toString());
+    //private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
 
-        data = new String[a.size()];
-        for(int i=0; i<a.size() ;i++){
-            Object o = a.get(i) +" \n" + a.get(++i) +"  \n "+ a.get(++i) ;
-            list.add(o.toString());
-        }
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//           ArrayList<String> data = intent.getStringArrayListExtra("ParsedData");
+//        }
+//    };
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                mfrFragementTwo.list.addAll(list);
-                mfrFragementTwo.arrayAdapter.notifyDataSetChanged();
-            }
-        });
 
 
 
     }
 
-
-
-    @Override
-    public void firstFragement(ArrayList list) {
-
-    }
-
-    @Override
-    public void secondFragment(ArrayList list) {
-
-    }
-}
 

@@ -7,5 +7,5 @@ import java.util.ArrayList;
  */
 
 public interface PassData {
-    void setData(ArrayList a);
+    void receiveDataFromDownloadClass(ArrayList a);
 }
