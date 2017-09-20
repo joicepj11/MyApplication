@@ -1,7 +1,9 @@
 package com.example.bpn.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
@@ -22,13 +24,17 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
     ArrayList<String> arr = new ArrayList<>();
     OkHttpClient client = new OkHttpClient();
     Context ctx;
-    PassData callback ;
+    //PassData callback ;
 
-    DownloaderClass(Context ctx,PassData callback){
+//    DownloaderClass(Context ctx,PassData callback){
+//        this.ctx = ctx;
+//        this.callback = callback;
+//    }
+
+    DownloaderClass(Context ctx){
         this.ctx = ctx;
-        this.callback = callback;
+        //this.callback = callback;
     }
-
 
     void readJsonObject( JsonReader reader )throws Exception{
 
@@ -77,6 +83,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
     }
 
+
     @Override
     protected Void doInBackground(Object... voids) {
 
@@ -100,8 +107,13 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.d("data",arr.toString());
-         callback.setData(arr);
+
+        Intent mIntent = new Intent("arrayListPassingBroadcastSender");
+        mIntent.putStringArrayListExtra("ParsedData",arr);
+        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
+
+        //Log.d("data",arr.toString());
+        // callback.setData(arr);
 
         return null;
     }
@@ -110,13 +122,5 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //    }
 
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-    }
 }
