@@ -23,7 +23,7 @@ import java.util.List;
  * Created by bpn on 20/09/17.
  */
 
-public class FragementOne extends Fragment  implements PassData {
+public class FragementOne extends Fragment  {
     List list;
     ListView mListView;
     ArrayAdapter arrayAdapter;
@@ -39,16 +39,19 @@ public class FragementOne extends Fragment  implements PassData {
         super.onCreate(savedInstanceState);
     }
 
-//    private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            ArrayList<String> data = intent.getStringArrayListExtra("ParsedData");
-//            list.addAll(data);
-//            arrayAdapter.notifyDataSetChanged();
-//
-//        }
-//    };
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+
+            for (BeanJsonData data1: data) {
+                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
+            }
+            arrayAdapter.notifyDataSetChanged();
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -62,21 +65,24 @@ public class FragementOne extends Fragment  implements PassData {
         list = new ArrayList<>();
         arrayAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.list_view_layout, R.id.text, list);
         mListView.setAdapter(arrayAdapter);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,new IntentFilter("passDataToFragement1"));
+
         return view;
     }
-    @Override
-    public void receiveDataFromDownloadClass(ArrayList a ) {
 
-        for (int i = 0; i < a.size(); i++) {
-            Object o = a.get(i) + " \n" + a.get(++i) + "  \n " + a.get(++i);
-            list.add(o.toString());
-        }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                arrayAdapter.notifyDataSetChanged();
-            }
-        });
-
-    }
+//    @Override
+//    public void receiveDataFromDownloadClass(ArrayList a ) {
+//
+//        for (int i = 0; i < a.size(); i++) {
+//            Object o = a.get(i) + " \n" + a.get(++i) + "  \n " + a.get(++i);
+//            list.add(o.toString());
+//        }
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                arrayAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//    }
 }

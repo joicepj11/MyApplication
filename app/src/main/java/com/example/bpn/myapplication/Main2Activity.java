@@ -58,7 +58,7 @@ public class Main2Activity extends AppCompatActivity  {
 //        mListView = (ListView) findViewById(R.id.listView);
            list = new ArrayList<>();
 
-        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo,mfragementOne,getApplicationContext());
+        DownloaderClass downloaderClass = new DownloaderClass(getApplicationContext());
        downloaderClass.execute();
       //  LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
 //        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);

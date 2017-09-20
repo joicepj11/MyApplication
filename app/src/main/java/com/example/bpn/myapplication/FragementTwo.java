@@ -25,7 +25,7 @@ import java.util.List;
  * Created by bpn on 20/09/17.
  */
 
-public class FragementTwo extends Fragment implements PassData {
+public class FragementTwo extends Fragment  {
 
 
     List list;
@@ -40,13 +40,20 @@ public class FragementTwo extends Fragment implements PassData {
         super.onCreate(savedInstanceState);
     }
 
-//    BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            list.addAll(intent.getStringArrayListExtra("ParsedData"));
-//            arrayAdapter.notifyDataSetChanged();
-//        }
-//    };
+    BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            ArrayList<String> data = intent.getStringArrayListExtra("ParsedData");
+            for(int i=0; i<data.size() ;i++){
+                Object o = data.get(i) +" \n" + data.get(++i) +"  \n "+ data.get(++i) ;
+                list.add(o.toString());
+            }
+
+            arrayAdapter.notifyDataSetChanged();
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -61,25 +68,24 @@ public class FragementTwo extends Fragment implements PassData {
 
         arrayAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.list_view_layout, R.id.text, list);
         mListView.setAdapter(arrayAdapter);
-
-
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadCastReceiver,new IntentFilter("passDataToFragement1"));
         return view;
     }
 
 
-    @Override
-    public void receiveDataFromDownloadClass(ArrayList a ) {
-
-        for (int i = 0; i < a.size(); i++) {
-            Object o = a.get(i) + " \n" + a.get(++i) + "  \n " + a.get(++i);
-            list.add(o.toString());
-        }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                arrayAdapter.notifyDataSetChanged();
-            }
-        });
-
-    }
+//    @Override
+//    public void receiveDataFromDownloadClass(ArrayList a ) {
+//
+//        for (int i = 0; i < a.size(); i++) {
+//            Object o = a.get(i) + " \n" + a.get(++i) + "  \n " + a.get(++i);
+//            list.add(o.toString());
+//        }
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                arrayAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//    }
 }

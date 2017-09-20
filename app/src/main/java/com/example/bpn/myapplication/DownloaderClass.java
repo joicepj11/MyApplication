@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,12 +20,16 @@ import okhttp3.Response;
 
 public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
+
+    BeanJsonData data  ;
     ArrayList<String> arr = new ArrayList<>();
     OkHttpClient client = new OkHttpClient();
     Context ctx;
-    PassData callback ;
-    PassData callback1;
+     PassData callback ;
+//    PassData callback1;
     FragementTwo fragement ;
+    ArrayList<BeanJsonData> arraylistJsonData = new ArrayList<>() ;
+
 
     public DownloaderClass( PassData callback ,Context ctx){
         this.ctx = ctx;
@@ -41,8 +44,8 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
     public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne,Context ctx){
         fragement = fragementTwo;
-        this.callback = fragement;
-        this.callback1 = fragementOne;
+        //this.callback = fragement;
+        //this.callback1 = fragementOne;
         this.ctx = ctx;
     }
 
@@ -50,19 +53,18 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
         reader.beginObject();
 
-        String name ;
+        String name , Aname =null,api =null,version=null ;
 
          while (reader.hasNext()){
              name = reader.nextName();
              if(name.equals("android")){
                 readJsonArray(reader);
              }else if(name.equals("ver")){
-                 String data  = reader.nextString();
-                 arr.add(data);
+                 version  = reader.nextString();
              }else if(name.equals("name")){
-                 arr.add(reader.nextString());
+                 Aname = reader.nextString();
              } else if(name.equals("api")){
-                 arr.add(reader.nextString());
+                api =  reader.nextString();
              }else{
                  reader.skipValue();
              }
@@ -70,6 +72,8 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
          }
 
+        data   = new BeanJsonData(Aname ,version,api);
+        arraylistJsonData.add(data);
         reader.endObject();
     }
 
@@ -108,6 +112,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
             if(response.isSuccessful()){
                 JsonReader reader = new JsonReader(response.body().charStream());
+
                     readJsonData(reader);
                 //testing commit
             }else{
@@ -122,14 +127,17 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //        mIntent.putStringArrayListExtra("ParsedData",arr);
 //        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
 
-//        Intent mIntent1 = new Intent("passDataToFragement1");
-//        mIntent1.putStringArrayListExtra("ParsedData",arr);
-//        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
+        Intent mIntent1 = new Intent("passDataToFragement1");
+
+        mIntent1.putExtra("data",arraylistJsonData);
+
+        //mIntent1.putStringArrayListExtra("ParsedData",arraylistJsonData);
+        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
 
         //Log.d("data",arr.toString());
 
-        callback.receiveDataFromDownloadClass(arr);
-        callback1.receiveDataFromDownloadClass(arr);
+        //callback.receiveDataFromDownloadClass(arr);
+        //callback1.receiveDataFromDownloadClass(arr);
 
         return null;
     }
