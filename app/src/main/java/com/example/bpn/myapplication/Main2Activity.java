@@ -65,12 +65,9 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     void setUIdata() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                arrayAdapter.notifyDataSetChanged();
-            }
-        });
+
+                mListView.setAdapter(arrayAdapter);
+
 
     }
 }
