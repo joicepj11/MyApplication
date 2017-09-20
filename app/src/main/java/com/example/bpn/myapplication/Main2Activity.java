@@ -1,5 +1,6 @@
 package com.example.bpn.myapplication;
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,25 +25,42 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity  implements  FragementTwo.secondFragementInsterface ,FragementOne.OnLineSelectedListener{
     ArrayAdapter<String> arrayAdapter;
     String data[] = null;
     ListView mListView;
-    List<String> list;
+    List list;
     Thread t;
+    PassData callback;
 
+    FragementOne mfragementOne;
+    FragementTwo mfrFragementTwo ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main2);
-        mListView = (ListView) findViewById(R.id.listView);
-        list = new ArrayList<>();
-        DownloaderClass downloaderClass = new DownloaderClass(getApplicationContext());
+
+        Main2Activity m = this;
+       mfragementOne = new FragementOne();
+        mfrFragementTwo = new FragementTwo();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.add(R.id.frameLayout1,mfragementOne);
+        transaction.add(R.id.frameLayout2,mfrFragementTwo);
+        transaction.commit();
+
+
+//        mListView = (ListView) findViewById(R.id.listView);
+           list = new ArrayList<>();
+
+        DownloaderClass downloaderClass = new DownloaderClass(getApplicationContext()  );
         downloaderClass.execute();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);
-        mListView.setAdapter(arrayAdapter);
+//        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);
+//        mListView.setAdapter(arrayAdapter);
     }
 
     private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
@@ -61,13 +81,29 @@ public class Main2Activity extends AppCompatActivity {
             Object o = a.get(i) +" \n" + a.get(++i) +"  \n "+ a.get(++i) ;
             list.add(o.toString());
         }
-        setUIdata();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                mfrFragementTwo.list.addAll(list);
+                mfrFragementTwo.arrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+
     }
 
-    void setUIdata() {
 
-                mListView.setAdapter(arrayAdapter);
 
+    @Override
+    public void firstFragement(ArrayList list) {
+
+    }
+
+    @Override
+    public void secondFragment(ArrayList list) {
 
     }
 }

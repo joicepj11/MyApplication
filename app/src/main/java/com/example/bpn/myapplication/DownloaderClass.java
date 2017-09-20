@@ -24,12 +24,12 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
     ArrayList<String> arr = new ArrayList<>();
     OkHttpClient client = new OkHttpClient();
     Context ctx;
-    //PassData callback ;
+    PassData callback ;
 
-//    DownloaderClass(Context ctx,PassData callback){
-//        this.ctx = ctx;
-//        this.callback = callback;
-//    }
+    DownloaderClass(Context ctx, Main2Activity callback){
+        this.ctx = ctx;
+        this.callback = (PassData)callback;
+    }
 
     DownloaderClass(Context ctx){
         this.ctx = ctx;
@@ -108,9 +108,13 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
             e.printStackTrace();
         }
 
-        Intent mIntent = new Intent("arrayListPassingBroadcastSender");
-        mIntent.putStringArrayListExtra("ParsedData",arr);
-        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
+//        Intent mIntent = new Intent("arrayListPassingBroadcastSender");
+//        mIntent.putStringArrayListExtra("ParsedData",arr);
+//        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
+
+        Intent mIntent1 = new Intent("passDataToFragement1");
+        mIntent1.putStringArrayListExtra("ParsedData",arr);
+        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
 
         //Log.d("data",arr.toString());
         // callback.setData(arr);
