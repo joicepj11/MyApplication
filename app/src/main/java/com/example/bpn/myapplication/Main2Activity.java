@@ -1,30 +1,19 @@
 package com.example.bpn.myapplication;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
 
 public class Main2Activity extends AppCompatActivity  {
     ArrayAdapter<String> arrayAdapter;
@@ -36,6 +25,7 @@ public class Main2Activity extends AppCompatActivity  {
 
     FragementOne mfragementOne;
     FragementTwo mfrFragementTwo ;
+    private BeanJsonData beadJsonData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +48,20 @@ public class Main2Activity extends AppCompatActivity  {
 //        mListView = (ListView) findViewById(R.id.listView);
            list = new ArrayList<>();
 
-        DownloaderClass downloaderClass = new DownloaderClass(getApplicationContext());
-       downloaderClass.execute();
-      //  LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
+        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
+        downloaderClass.execute();
+
+
+
+
+
+
+
+
+//       callback.receiveDataFromDownloadClass();
+        //LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(mIntent1);
+
+        //  LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
 //        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);
 //        mListView.setAdapter(arrayAdapter);
     }

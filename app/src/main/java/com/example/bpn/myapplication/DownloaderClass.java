@@ -1,14 +1,13 @@
 package com.example.bpn.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,18 +19,18 @@ import okhttp3.Response;
 
 public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
-
+    HashSet<String> hashSet =new HashSet<>();
     BeanJsonData data  ;
     ArrayList<String> arr = new ArrayList<>();
     OkHttpClient client = new OkHttpClient();
     Context ctx;
      PassData callback ;
-//    PassData callback1;
+    PassData callback1;
     FragementTwo fragement ;
     ArrayList<BeanJsonData> arraylistJsonData = new ArrayList<>() ;
 
 
-    public DownloaderClass( PassData callback ,Context ctx){
+    public DownloaderClass( FragementTwo callback ,Context ctx){
         this.ctx = ctx;
         this.callback = callback;
     }
@@ -44,8 +43,8 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
     public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne,Context ctx){
         fragement = fragementTwo;
-        //this.callback = fragement;
-        //this.callback1 = fragementOne;
+        this.callback = fragement;
+        this.callback1 = fragementOne;
         this.ctx = ctx;
     }
 
@@ -61,10 +60,13 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
                 readJsonArray(reader);
              }else if(name.equals("ver")){
                  version  = reader.nextString();
+                // hashSet.add(reader.nextString());
              }else if(name.equals("name")){
                  Aname = reader.nextString();
+                 //hashSet.add(reader.nextString());
              } else if(name.equals("api")){
                 api =  reader.nextString();
+                //hashSet.add(reader.nextString());
              }else{
                  reader.skipValue();
              }
@@ -127,17 +129,20 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //        mIntent.putStringArrayListExtra("ParsedData",arr);
 //        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent);
 
-        Intent mIntent1 = new Intent("passDataToFragement1");
-
-        mIntent1.putExtra("data",arraylistJsonData);
-
-        //mIntent1.putStringArrayListExtra("ParsedData",arraylistJsonData);
-        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
+//        Intent mIntent1 = new Intent("passDataToFragement1");
+//
+//        mIntent1.putExtra("data",arraylistJsonData);
+//
+//        //mIntent1.putStringArrayListExtra("ParsedData",arraylistJsonData);
+//        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
 
         //Log.d("data",arr.toString());
 
-        //callback.receiveDataFromDownloadClass(arr);
-        //callback1.receiveDataFromDownloadClass(arr);
+        SavingDataTOSharedPrefernce preference = new SavingDataTOSharedPrefernce(ctx);
+       preference.storeDataInSharedPreference(arraylistJsonData ,ctx);
+
+        callback.receiveDataFromDownloadClass();
+        callback1.receiveDataFromDownloadClass();
 
         return null;
     }

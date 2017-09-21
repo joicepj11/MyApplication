@@ -17,13 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by bpn on 20/09/17.
  */
 
-public class FragementOne extends Fragment  {
+public class FragementOne extends Fragment  implements PassData {
     List list;
     ListView mListView;
     ArrayAdapter arrayAdapter;
@@ -43,11 +45,11 @@ public class FragementOne extends Fragment  {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
-
-            for (BeanJsonData data1: data) {
-                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
-            }
+//            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+//
+//            for (BeanJsonData data1: data) {
+//                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
+//            }
             arrayAdapter.notifyDataSetChanged();
 
         }
@@ -70,19 +72,20 @@ public class FragementOne extends Fragment  {
         return view;
     }
 
-//    @Override
-//    public void receiveDataFromDownloadClass(ArrayList a ) {
-//
-//        for (int i = 0; i < a.size(); i++) {
-//            Object o = a.get(i) + " \n" + a.get(++i) + "  \n " + a.get(++i);
-//            list.add(o.toString());
-//        }
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                arrayAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//    }
+    @Override
+    public void receiveDataFromDownloadClass( ) {
+
+        SavingDataTOSharedPrefernce s = new SavingDataTOSharedPrefernce(getContext());
+        ArrayList<BeanJsonData> beanJsonData = s.readDataFromSharedPreference(getContext());
+        for(BeanJsonData data : beanJsonData){
+         list.add(data.getName() +"\n"  +data.getVersion() +"  \n" +data.getApi());
+        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
 }
