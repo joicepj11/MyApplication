@@ -49,6 +49,7 @@ public class FragementTwo extends Fragment implements PassData {
             for (BeanJsonData data1 : data) {
             list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
            }
+            //comment
             arrayAdapter.notifyDataSetChanged();
         }
     };
