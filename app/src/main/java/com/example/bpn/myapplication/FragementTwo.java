@@ -45,11 +45,10 @@ public class FragementTwo extends Fragment implements PassData {
     BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-//            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
-//
-//            for (BeanJsonData data1 : data) {
-//                list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
-//            }
+            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+            for (BeanJsonData data1 : data) {
+            list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
+           }
             arrayAdapter.notifyDataSetChanged();
         }
     };
@@ -85,7 +84,10 @@ public class FragementTwo extends Fragment implements PassData {
 //            }
 //        });
 //
-//    }    @Override
+//    }
+//
+//
+    @Override
     public void receiveDataFromDownloadClass() {
 
 

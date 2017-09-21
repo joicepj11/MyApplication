@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by bpn on 20/09/17.
  */
 
-public class BeanJsonData  {
+public class BeanJsonData implements Parcelable {
 
     private String Name;
     private String Version;
@@ -22,6 +22,23 @@ public class BeanJsonData  {
     }
 
 
+    protected BeanJsonData(Parcel in) {
+        Name = in.readString();
+        Version = in.readString();
+        Api = in.readString();
+    }
+
+    public static final Creator<BeanJsonData> CREATOR = new Creator<BeanJsonData>() {
+        @Override
+        public BeanJsonData createFromParcel(Parcel in) {
+            return new BeanJsonData(in);
+        }
+
+        @Override
+        public BeanJsonData[] newArray(int size) {
+            return new BeanJsonData[size];
+        }
+    };
 
     public String getName() {
         return Name;
@@ -48,4 +65,15 @@ public class BeanJsonData  {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Name);
+        parcel.writeString(Version);
+        parcel.writeString(Api);
+    }
 }

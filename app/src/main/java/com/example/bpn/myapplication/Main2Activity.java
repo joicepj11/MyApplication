@@ -46,15 +46,14 @@ public class Main2Activity extends AppCompatActivity  {
 
 
 //        mListView = (ListView) findViewById(R.id.listView);
-           list = new ArrayList<>();
-
-        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
-        downloaderClass.execute();
-
-
-
+          // list = new ArrayList<>();
+//
+//        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
+//        downloaderClass.execute();
+//
 
 
+        startService(new Intent(Main2Activity.this,DownloadService.class));
 
 
 

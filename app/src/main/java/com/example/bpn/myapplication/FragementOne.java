@@ -41,15 +41,15 @@ public class FragementOne extends Fragment  implements PassData {
         super.onCreate(savedInstanceState);
     }
 
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
-//
-//            for (BeanJsonData data1: data) {
-//                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
-//            }
+            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+
+            for (BeanJsonData data1: data) {
+                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
+            }
             arrayAdapter.notifyDataSetChanged();
 
         }
@@ -61,13 +61,13 @@ public class FragementOne extends Fragment  implements PassData {
         View view  = inflater.inflate(R.layout.fragement_layout_one, container,false);
 
 
-       // LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageBroadcastReceiver,new IntentFilter("passDataToFragement1") );
+       LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageBroadcastReceiver,new IntentFilter("passDataToFragement1") );
 
         mListView =  view.findViewById(R.id.list_item1);
         list = new ArrayList<>();
         arrayAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.list_view_layout, R.id.text, list);
         mListView.setAdapter(arrayAdapter);
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,new IntentFilter("passDataToFragement1"));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageBroadcastReceiver,new IntentFilter("passDataToFragement1"));
 
         return view;
     }
