@@ -43,15 +43,12 @@ public class FragementTwo extends Fragment  {
     BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
 
-            ArrayList<String> data = intent.getStringArrayListExtra("ParsedData");
-            for(int i=0; i<data.size() ;i++){
-                Object o = data.get(i) +" \n" + data.get(++i) +"  \n "+ data.get(++i) ;
-                list.add(o.toString());
+            for (BeanJsonData data1: data) {
+                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
             }
-
             arrayAdapter.notifyDataSetChanged();
-
         }
     };
 
