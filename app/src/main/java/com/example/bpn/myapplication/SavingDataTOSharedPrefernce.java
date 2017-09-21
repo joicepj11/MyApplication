@@ -21,7 +21,7 @@ public class SavingDataTOSharedPrefernce {
     Context mContext ;
 
     String FIELD_NAME = "data";
-    SavingDataTOSharedPrefernce(Context ctx){
+    public SavingDataTOSharedPrefernce(Context ctx){
         mContext = ctx;
     }
 
@@ -47,7 +47,7 @@ public class SavingDataTOSharedPrefernce {
 
          prefrencesEditor.commit();
      }
-    ArrayList<BeanJsonData> readDataFromSharedPreference(Context ctx){
+    public ArrayList<BeanJsonData> readDataFromSharedPreference(Context ctx){
 
        preference=mContext.getSharedPreferences("name",Context.MODE_PRIVATE);
 //       String data = preference.getString(FIELD_NAME,null);

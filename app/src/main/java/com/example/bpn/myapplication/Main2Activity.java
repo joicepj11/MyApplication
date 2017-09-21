@@ -4,15 +4,15 @@ package com.example.bpn.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import com.example.bpn.myapplication.download.DownloadService;
+import com.example.bpn.myapplication.fragement.FragementOne;
+import com.example.bpn.myapplication.fragement.FragementTwo;
+
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity  {

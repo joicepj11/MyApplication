@@ -1,10 +1,12 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.download;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
+
+import com.example.bpn.myapplication.BeanJsonData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,7 +94,7 @@ public class DownloadService extends IntentService {
             intent1.putExtra("data",jsonParsedData);
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
 
-            stopSelf();
+//            stopSelf();
         } catch (Exception e) {
             e.printStackTrace();
         }
