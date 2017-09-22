@@ -20,6 +20,7 @@ import com.example.bpn.myapplication.BeanJsonData;
 import com.example.bpn.myapplication.PassData;
 import com.example.bpn.myapplication.R;
 import com.example.bpn.myapplication.SavingDataTOSharedPrefernce;
+import com.example.bpn.myapplication.SqlDatabase;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,7 +56,12 @@ public class FragementOne extends Fragment  implements PassData {
 //            for (BeanJsonData data1: data) {
 //                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
 //            }
-
+            SqlDatabase database = new SqlDatabase(getContext());
+            ArrayList<BeanJsonData>data = database.read();
+            for (BeanJsonData data1 : data) {
+                list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
+            }
+            database.closeDB();
             arrayAdapter.notifyDataSetChanged();
 
         }

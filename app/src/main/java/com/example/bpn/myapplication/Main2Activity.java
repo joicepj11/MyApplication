@@ -54,9 +54,12 @@ public class Main2Activity extends AppCompatActivity  {
 //
 
 
-        startService(new Intent(Main2Activity.this,DownloadService.class));
+        //startService(new Intent(Main2Activity.this,DownloadService.class));
 
-
+        Intent intent = getIntent();
+        Intent i = new Intent(this,DownloadService.class);
+        i.putExtra("url" ,intent.getExtras().get("url").toString() );
+        startService(i);
 
 //       callback.receiveDataFromDownloadClass();
         //LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(mIntent1);

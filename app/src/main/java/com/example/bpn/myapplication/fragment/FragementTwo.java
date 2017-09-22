@@ -53,6 +53,7 @@ public class FragementTwo extends Fragment implements PassData {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+
 //            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
 //            for (BeanJsonData data1 : data) {
 //            list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
@@ -62,6 +63,7 @@ public class FragementTwo extends Fragment implements PassData {
             for (BeanJsonData data1 : data) {
                 list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
             }
+            database.closeDB();
             //comment
             arrayAdapter.notifyDataSetChanged();
         }

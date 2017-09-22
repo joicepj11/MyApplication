@@ -31,7 +31,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("Create table  "+ TABLE_NAME + " ( " +COL_NAME1 + "  text " +COL_NAME2 +  "  text " +COL_NAME3 +   "  text ) " );
+        sqLiteDatabase.execSQL("Create table  "+ TABLE_NAME + " ( " +COL_NAME1 + "  text, " +COL_NAME2 +  "  text, " +COL_NAME3 +   "  text ) " );
     }
 
     public void insert(String AndroidName,String AndroidVersion ,String AndroidApi){
@@ -44,21 +44,24 @@ public class SqlDatabase extends SQLiteOpenHelper {
         values.put(COL_NAME3,AndroidApi);
 
         db.insert(TABLE_NAME ,null,values);
+
     }
 
     public ArrayList<BeanJsonData> read(){
         ArrayList<BeanJsonData> data= new ArrayList<>();
+
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery("Select * from "+TABLE_NAME ,null);
+
         cursor.moveToFirst();
 
-        while (cursor.isAfterLast()){
+        do{
            String androidName =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME1));
             String androidVersion  =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME2));
             String androidApi =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME3));
             data.add(new BeanJsonData(androidName,androidVersion,androidApi));
-            cursor.moveToFirst();
-        }
+
+        }while (cursor.moveToNext());
 
         return data;
     }
@@ -69,5 +72,13 @@ public class SqlDatabase extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
+    }
+    @Override
+    public synchronized void close() {
+        super.close();
+    }
 }
