@@ -1,4 +1,4 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.bpn.myapplication.BeanJsonData;
+import com.example.bpn.myapplication.PassData;
+import com.example.bpn.myapplication.R;
+import com.example.bpn.myapplication.SavingDataTOSharedPrefernce;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,11 +50,12 @@ public class FragementOne extends Fragment  implements PassData {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+//            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
+//
+//            for (BeanJsonData data1: data) {
+//                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
+//            }
 
-            for (BeanJsonData data1: data) {
-                list.add( data1.getName()  + "\n" +data1.getApi() + "\n" + data1.getVersion());
-            }
             arrayAdapter.notifyDataSetChanged();
 
         }

@@ -1,10 +1,16 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.download;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.widget.Toast;
+
+import com.example.bpn.myapplication.BeanJsonData;
+import com.example.bpn.myapplication.fragment.FragementOne;
+import com.example.bpn.myapplication.fragment.FragementTwo;
+import com.example.bpn.myapplication.PassData;
+import com.example.bpn.myapplication.SavingDataTOSharedPrefernce;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +47,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
         //this.callback = callback;
     }
 
-    public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne,Context ctx){
+    public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne, Context ctx){
         fragement = fragementTwo;
         this.callback = fragement;
         this.callback1 = fragementOne;
@@ -139,7 +145,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
         //Log.d("data",arr.toString());
 
         SavingDataTOSharedPrefernce preference = new SavingDataTOSharedPrefernce(ctx);
-       preference.storeDataInSharedPreference(arraylistJsonData ,ctx);
+        preference.storeDataInSharedPreference(arraylistJsonData ,ctx);
 
         callback.receiveDataFromDownloadClass();
         callback1.receiveDataFromDownloadClass();

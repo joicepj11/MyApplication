@@ -1,10 +1,12 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.download;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
+
+import com.example.bpn.myapplication.BeanJsonData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,11 +19,11 @@ import okhttp3.Response;
  * Created by bpn on 21/09/17.
  */
 
-public class DownloadService extends IntentService {
+public class DownloadIntentService extends IntentService {
 
     ArrayList<BeanJsonData> jsonParsedData = new ArrayList<>();
-    public DownloadService() {
-        super("DownloadService");
+    public DownloadIntentService() {
+        super("DownloadIntentService");
     }
 
 
