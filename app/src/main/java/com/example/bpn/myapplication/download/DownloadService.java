@@ -1,29 +1,14 @@
 package com.example.bpn.myapplication.download;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
-import android.os.Parcelable;
-import android.support.annotation.IntDef;
-=======
->>>>>>> feat: created packages and formatted code
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
-import android.util.Log;
 
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
-import com.example.bpn.myapplication.BeanJsonData;
-import com.example.bpn.myapplication.SqlDatabase;
-
-import java.net.URL;
-import java.util.ArrayList;
-=======
 import com.example.bpn.myapplication.data.SqlDatabase;
->>>>>>> feat: created packages and formatted code
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,17 +19,17 @@ import okhttp3.Response;
  */
 
 public class DownloadService extends Service {
-    SqlDatabase sqlDatabase;
+
+    SqlDatabase sqlDatabase = new SqlDatabase(getBaseContext());
+
+    public DownloadService() {
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-
-    public DownloadService() {
-    }
-
 
     void readJsonObject( JsonReader reader )throws Exception{
 
@@ -69,10 +54,8 @@ public class DownloadService extends Service {
                 reader.skipValue();
             }
         }
-         sqlDatabase = new SqlDatabase(getApplicationContext());
-        if(Aname != null) {
-            sqlDatabase.insert(Aname, version, api);
-        }
+        sqlDatabase.insert(Aname, version, api);
+
 
         reader.endObject();
     }
@@ -98,39 +81,27 @@ public class DownloadService extends Service {
     }
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final String url = (String) intent.getExtras().get("url");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Response response=null;
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
                 OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("http://api.learn2crack.com/android/jsonandroid/")
+                        .build();
                 try {
-                   response = client.newCall(request).execute();
+                    Response response = client.newCall(request).execute();
                     if (response.isSuccessful()) {
                         JsonReader reader = new JsonReader(response.body().charStream());
                         readJsonData(reader);
-
-                        sqlDatabase.closeDB();
-                        Context ctx = getApplicationContext();
-                        Intent intent1 = new Intent("passDataToFragement1");
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
-                        stopSelf();
                     }
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
-
-                } catch (Exception e){
-                    Log.e("errorMessage",e.getMessage());
-=======
                 } catch (Exception e) {
                     e.printStackTrace();
->>>>>>> feat: created packages and formatted code
                 }
-
+                Intent intent1 = new Intent("passDataToFragement1");
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+                stopSelf();
             }
         }).start();
 

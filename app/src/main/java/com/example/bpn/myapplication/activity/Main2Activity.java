@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
-
 import android.widget.ListView;
 
 import com.example.bpn.myapplication.PassData;
@@ -56,16 +55,8 @@ public class Main2Activity extends AppCompatActivity {
 //
 
 
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa:app/src/main/java/com/example/bpn/myapplication/Main2Activity.java
-        //startService(new Intent(Main2Activity.this,DownloadService.class));
-=======
         startService(new Intent(Main2Activity.this, DownloadService.class));
->>>>>>> feat: created packages and formatted code:app/src/main/java/com/example/bpn/myapplication/activity/Main2Activity.java
 
-        Intent intent = getIntent();
-        Intent i = new Intent(this,DownloadService.class);
-        i.putExtra("url" ,intent.getExtras().get("url").toString() );
-        startService(i);
 
 //       callback.receiveDataFromDownloadClass();
         //LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(mIntent1);

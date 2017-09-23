@@ -1,10 +1,11 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+
+import com.example.bpn.myapplication.R;
 
 /**
  * Created by admin on 9/22/2017.

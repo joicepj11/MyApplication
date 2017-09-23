@@ -14,14 +14,12 @@ import java.util.ArrayList;
 
 public class SqlDatabase extends SQLiteOpenHelper {
 
+    public static final int DATABASE_VERSION = 1;
     public static String DATABASE_NAME = "mydb.db";
     public static String TABLE_NAME = "AndroidDeviceDetails";
     public static String COL_NAME1 = "name";
     public static String COL_NAME2 = "version";
     public static String COL_NAME3 = "api";
-    public static final int DATABASE_VERSION = 1;
-
-
     String projection[] = new String[]{COL_NAME1, COL_NAME2, COL_NAME3};
 
     public SqlDatabase(Context context) {
@@ -31,11 +29,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa:app/src/main/java/com/example/bpn/myapplication/SqlDatabase.java
         sqLiteDatabase.execSQL("Create table  "+ TABLE_NAME + " ( " +COL_NAME1 + "  text, " +COL_NAME2 +  "  text, " +COL_NAME3 +   "  text ) " );
-=======
-        sqLiteDatabase.execSQL("Create table  " + TABLE_NAME + " ( " + COL_NAME1 + "  text " + COL_NAME2 + "  text " + COL_NAME3 + "  text ) ");
->>>>>>> feat: created packages and formatted code:app/src/main/java/com/example/bpn/myapplication/data/SqlDatabase.java
     }
 
     public void insert(String AndroidName, String AndroidVersion, String AndroidApi) {
@@ -47,29 +41,11 @@ public class SqlDatabase extends SQLiteOpenHelper {
         values.put(COL_NAME2, AndroidVersion);
         values.put(COL_NAME3, AndroidApi);
 
-<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa:app/src/main/java/com/example/bpn/myapplication/SqlDatabase.java
+
         db.insert(TABLE_NAME ,null,values);
 
     }
 
-    public ArrayList<BeanJsonData> read(){
-        ArrayList<BeanJsonData> data= new ArrayList<>();
-
-        SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery("Select * from "+TABLE_NAME ,null);
-
-        cursor.moveToFirst();
-
-        do{
-           String androidName =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME1));
-            String androidVersion  =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME2));
-            String androidApi =  cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME3));
-            data.add(new BeanJsonData(androidName,androidVersion,androidApi));
-
-        }while (cursor.moveToNext());
-=======
-        db.insert(TABLE_NAME, null, values);
-    }
 
     public ArrayList<BeanJsonData> read() {
         ArrayList<BeanJsonData> data = new ArrayList<>();
@@ -84,7 +60,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
             data.add(new BeanJsonData(androidName, androidVersion, androidApi));
             cursor.moveToFirst();
         }
->>>>>>> feat: created packages and formatted code:app/src/main/java/com/example/bpn/myapplication/data/SqlDatabase.java
+
 
         return data;
     }

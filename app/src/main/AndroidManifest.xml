@@ -15,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferenceExample"/>
+        <activity android:name=".activity.PreferenceExample" />
         <service android:name=".download.DownloadIntentService" />
         <service android:name=".download.DownloadService"/>
         <activity
