@@ -4,19 +4,26 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+=======
+>>>>>>> feat: created packages and formatted code
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
 
+<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
 import com.example.bpn.myapplication.BeanJsonData;
 import com.example.bpn.myapplication.SqlDatabase;
 
 import java.net.URL;
 import java.util.ArrayList;
+=======
+import com.example.bpn.myapplication.data.SqlDatabase;
+>>>>>>> feat: created packages and formatted code
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -114,9 +121,14 @@ public class DownloadService extends Service {
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
                         stopSelf();
                     }
+<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa
 
                 } catch (Exception e){
                     Log.e("errorMessage",e.getMessage());
+=======
+                } catch (Exception e) {
+                    e.printStackTrace();
+>>>>>>> feat: created packages and formatted code
                 }
 
             }

@@ -6,9 +6,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 
-import com.example.bpn.myapplication.BeanJsonData;
+import com.example.bpn.myapplication.data.BeanJsonData;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
@@ -22,34 +21,35 @@ import okhttp3.Response;
 public class DownloadIntentService extends IntentService {
 
     ArrayList<BeanJsonData> jsonParsedData = new ArrayList<>();
+
     public DownloadIntentService() {
         super("DownloadIntentService");
     }
 
 
-    void readJsonObject( JsonReader reader )throws Exception{
+    void readJsonObject(JsonReader reader) throws Exception {
 
         reader.beginObject();
 
-        String name , Aname =null,api =null,version=null ;
+        String name, Aname = null, api = null, version = null;
 
-        while (reader.hasNext()){
+        while (reader.hasNext()) {
             name = reader.nextName();
-            if(name.equals("android")){
+            if (name.equals("android")) {
                 readJsonArray(reader);
-            }else if(name.equals("ver")){
-                version  = reader.nextString();
+            } else if (name.equals("ver")) {
+                version = reader.nextString();
 
-            }else if(name.equals("name")){
+            } else if (name.equals("name")) {
                 Aname = reader.nextString();
 
-            } else if(name.equals("api")){
-                api =  reader.nextString();
+            } else if (name.equals("api")) {
+                api = reader.nextString();
 
-            }else{
+            } else {
                 reader.skipValue();
             }
-            jsonParsedData.add(new BeanJsonData(Aname,version,api));
+            jsonParsedData.add(new BeanJsonData(Aname, version, api));
 
         }
 
@@ -57,21 +57,21 @@ public class DownloadIntentService extends IntentService {
         reader.endObject();
     }
 
-    private void readJsonArray(JsonReader reader) throws Exception{
+    private void readJsonArray(JsonReader reader) throws Exception {
         reader.beginArray();
 
-        while (reader.hasNext()){
+        while (reader.hasNext()) {
             readJsonObject(reader);
         }
 
         reader.endArray();
     }
 
-    public void readJsonData(JsonReader reader) throws Exception{
+    public void readJsonData(JsonReader reader) throws Exception {
 
-        if(reader.peek() == JsonToken.BEGIN_OBJECT){
+        if (reader.peek() == JsonToken.BEGIN_OBJECT) {
             readJsonObject(reader);
-        }else if(reader.peek() == JsonToken.BEGIN_ARRAY){
+        } else if (reader.peek() == JsonToken.BEGIN_ARRAY) {
             readJsonArray(reader);
         }
 
@@ -91,7 +91,7 @@ public class DownloadIntentService extends IntentService {
                 readJsonData(reader);
             }
             Intent intent1 = new Intent("passDataToFragement1");
-            intent1.putExtra("data",jsonParsedData);
+            intent1.putExtra("data", jsonParsedData);
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
 
             stopSelf();

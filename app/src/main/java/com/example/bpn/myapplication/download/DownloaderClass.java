@@ -6,11 +6,11 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.widget.Toast;
 
-import com.example.bpn.myapplication.BeanJsonData;
+import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.fragment.FragementOne;
 import com.example.bpn.myapplication.fragment.FragementTwo;
 import com.example.bpn.myapplication.PassData;
-import com.example.bpn.myapplication.SavingDataTOSharedPrefernce;
+import com.example.bpn.myapplication.data.SavingDataTOSharedPrefernce;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,81 +25,81 @@ import okhttp3.Response;
 
 public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
-    HashSet<String> hashSet =new HashSet<>();
-    BeanJsonData data  ;
+    HashSet<String> hashSet = new HashSet<>();
+    BeanJsonData data;
     ArrayList<String> arr = new ArrayList<>();
     OkHttpClient client = new OkHttpClient();
     Context ctx;
-     PassData callback ;
+    PassData callback;
     PassData callback1;
-    FragementTwo fragement ;
-    ArrayList<BeanJsonData> arraylistJsonData = new ArrayList<>() ;
+    FragementTwo fragement;
+    ArrayList<BeanJsonData> arraylistJsonData = new ArrayList<>();
 
 
-    public DownloaderClass( FragementTwo callback ,Context ctx){
+    public DownloaderClass(FragementTwo callback, Context ctx) {
         this.ctx = ctx;
         this.callback = callback;
     }
 
 
-    DownloaderClass(Context ctx){
+    DownloaderClass(Context ctx) {
         this.ctx = ctx;
         //this.callback = callback;
     }
 
-    public DownloaderClass(FragementTwo fragementTwo , FragementOne fragementOne, Context ctx){
+    public DownloaderClass(FragementTwo fragementTwo, FragementOne fragementOne, Context ctx) {
         fragement = fragementTwo;
         this.callback = fragement;
         this.callback1 = fragementOne;
         this.ctx = ctx;
     }
 
-    void readJsonObject( JsonReader reader )throws Exception{
+    void readJsonObject(JsonReader reader) throws Exception {
 
         reader.beginObject();
 
-        String name , Aname =null,api =null,version=null ;
+        String name, Aname = null, api = null, version = null;
 
-         while (reader.hasNext()){
-             name = reader.nextName();
-             if(name.equals("android")){
+        while (reader.hasNext()) {
+            name = reader.nextName();
+            if (name.equals("android")) {
                 readJsonArray(reader);
-             }else if(name.equals("ver")){
-                 version  = reader.nextString();
+            } else if (name.equals("ver")) {
+                version = reader.nextString();
                 // hashSet.add(reader.nextString());
-             }else if(name.equals("name")){
-                 Aname = reader.nextString();
-                 //hashSet.add(reader.nextString());
-             } else if(name.equals("api")){
-                api =  reader.nextString();
+            } else if (name.equals("name")) {
+                Aname = reader.nextString();
                 //hashSet.add(reader.nextString());
-             }else{
-                 reader.skipValue();
-             }
+            } else if (name.equals("api")) {
+                api = reader.nextString();
+                //hashSet.add(reader.nextString());
+            } else {
+                reader.skipValue();
+            }
 
 
-         }
+        }
 
-        data   = new BeanJsonData(Aname ,version,api);
+        data = new BeanJsonData(Aname, version, api);
         arraylistJsonData.add(data);
         reader.endObject();
     }
 
-    private void readJsonArray(JsonReader reader) throws Exception{
+    private void readJsonArray(JsonReader reader) throws Exception {
         reader.beginArray();
 
-        while (reader.hasNext()){
-        readJsonObject(reader);
+        while (reader.hasNext()) {
+            readJsonObject(reader);
         }
 
         reader.endArray();
     }
 
-    public void readJsonData(JsonReader reader) throws Exception{
+    public void readJsonData(JsonReader reader) throws Exception {
 
-        if(reader.peek() == JsonToken.BEGIN_OBJECT){
+        if (reader.peek() == JsonToken.BEGIN_OBJECT) {
             readJsonObject(reader);
-        }else if(reader.peek() == JsonToken.BEGIN_ARRAY){
+        } else if (reader.peek() == JsonToken.BEGIN_ARRAY) {
             readJsonArray(reader);
         }
 
@@ -114,20 +114,20 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
                 .url("https://api.learn2crack.com/android/jsonandroid/")
                 .build();
 
-        try{
+        try {
 
-            Response  response =  client.newCall(request).execute();
+            Response response = client.newCall(request).execute();
 
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 JsonReader reader = new JsonReader(response.body().charStream());
 
-                    readJsonData(reader);
+                readJsonData(reader);
                 //testing commit
-            }else{
-                Toast.makeText(ctx , " Couldn't read data ",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ctx, " Couldn't read data ", Toast.LENGTH_LONG).show();
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -145,7 +145,7 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
         //Log.d("data",arr.toString());
 
         SavingDataTOSharedPrefernce preference = new SavingDataTOSharedPrefernce(ctx);
-        preference.storeDataInSharedPreference(arraylistJsonData ,ctx);
+        preference.storeDataInSharedPreference(arraylistJsonData, ctx);
 
         callback.receiveDataFromDownloadClass();
         callback1.receiveDataFromDownloadClass();
@@ -155,7 +155,6 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //    public void setListner(Context ctx){
 //        data = ctx;
 //    }
-
 
 
 }

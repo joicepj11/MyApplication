@@ -1,4 +1,4 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bpn on 20/09/17.
@@ -25,7 +24,7 @@ public class SavingDataTOSharedPrefernce {
         mContext = ctx;
     }
 
-     public void storeDataInSharedPreference(ArrayList<BeanJsonData> data, Context mContext){
+    public void storeDataInSharedPreference(ArrayList<BeanJsonData> data, Context mContext){
 
 //
 //
@@ -39,17 +38,17 @@ public class SavingDataTOSharedPrefernce {
 //         editor.commit();
 
 
-         preference = mContext.getSharedPreferences("name", Context.MODE_PRIVATE);
-         SharedPreferences.Editor prefrencesEditor = preference.edit();
-         Gson gson = new Gson();
-         String json = gson.toJson(data);
-         prefrencesEditor.putString(FIELD_NAME, json);
+        preference = mContext.getSharedPreferences("name", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefrencesEditor = preference.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        prefrencesEditor.putString(FIELD_NAME, json);
 
-         prefrencesEditor.commit();
-     }
+        prefrencesEditor.commit();
+    }
     public ArrayList<BeanJsonData> readDataFromSharedPreference(Context ctx){
 
-       preference=mContext.getSharedPreferences("name",Context.MODE_PRIVATE);
+        preference=mContext.getSharedPreferences("name",Context.MODE_PRIVATE);
 //       String data = preference.getString(FIELD_NAME,null);
 //        Gson gson = new Gson();
 //        ArrayList<BeanJsonData> dataArrayList = gson.fromJson(data ,new TypeToken<ArrayList<BeanJsonData>>(){}.getType());

@@ -1,9 +1,7 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.ArrayList;
 
 /**
  * Created by bpn on 20/09/17.
@@ -15,9 +13,9 @@ public class BeanJsonData implements Parcelable {
     private String Version;
     private String Api;
 
-    public BeanJsonData(String Name , String Version , String Api){
+    public BeanJsonData(String Name, String Version, String Api) {
         this.Name = Name;
-        this.Api = Api ;
+        this.Api = Api;
         this.Version = Version;
     }
 

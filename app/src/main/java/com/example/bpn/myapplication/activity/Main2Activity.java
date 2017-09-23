@@ -1,4 +1,4 @@
-package com.example.bpn.myapplication;
+package com.example.bpn.myapplication.activity;
 
 
 import android.content.Intent;
@@ -9,14 +9,16 @@ import android.widget.ArrayAdapter;
 
 import android.widget.ListView;
 
-import com.example.bpn.myapplication.download.DownloadIntentService;
+import com.example.bpn.myapplication.PassData;
+import com.example.bpn.myapplication.R;
+import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.download.DownloadService;
 import com.example.bpn.myapplication.fragment.FragementOne;
 import com.example.bpn.myapplication.fragment.FragementTwo;
 
 import java.util.List;
 
-public class Main2Activity extends AppCompatActivity  {
+public class Main2Activity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String data[] = null;
     ListView mListView;
@@ -25,7 +27,7 @@ public class Main2Activity extends AppCompatActivity  {
     PassData callback1;
 
     FragementOne mfragementOne;
-    FragementTwo mfrFragementTwo ;
+    FragementTwo mfrFragementTwo;
     private BeanJsonData beadJsonData;
 
     @Override
@@ -41,20 +43,24 @@ public class Main2Activity extends AppCompatActivity  {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.add(R.id.frameLayout1,mfragementOne);
-        transaction.add(R.id.frameLayout2,mfrFragementTwo);
+        transaction.add(R.id.frameLayout1, mfragementOne);
+        transaction.add(R.id.frameLayout2, mfrFragementTwo);
         transaction.commit();
 
 
 //        mListView = (ListView) findViewById(R.id.listView);
-          // list = new ArrayList<>();
+        // list = new ArrayList<>();
 //
 //        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
 //        downloaderClass.execute();
 //
 
 
+<<<<<<< 2e28d04afad8e7d74327449e620b5c5288c863fa:app/src/main/java/com/example/bpn/myapplication/Main2Activity.java
         //startService(new Intent(Main2Activity.this,DownloadService.class));
+=======
+        startService(new Intent(Main2Activity.this, DownloadService.class));
+>>>>>>> feat: created packages and formatted code:app/src/main/java/com/example/bpn/myapplication/activity/Main2Activity.java
 
         Intent intent = getIntent();
         Intent i = new Intent(this,DownloadService.class);
@@ -70,7 +76,6 @@ public class Main2Activity extends AppCompatActivity  {
     }
 
 
-
     //private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
 
 //        @Override
@@ -80,6 +85,6 @@ public class Main2Activity extends AppCompatActivity  {
 //    };
 
 
-    }
+}
 
 
