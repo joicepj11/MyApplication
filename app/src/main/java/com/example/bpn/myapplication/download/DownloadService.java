@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 
 import com.example.bpn.myapplication.data.SqlDatabase;
 
@@ -19,9 +20,7 @@ import okhttp3.Response;
  */
 
 public class DownloadService extends Service {
-
-    SqlDatabase sqlDatabase = new SqlDatabase(getBaseContext());
-
+    SqlDatabase sqlDatabase;
     public DownloadService() {
     }
 
@@ -54,8 +53,10 @@ public class DownloadService extends Service {
                 reader.skipValue();
             }
         }
-        sqlDatabase.insert(Aname, version, api);
-
+        sqlDatabase = new SqlDatabase(getApplicationContext());
+        if (Aname != null) {
+            sqlDatabase.insert(Aname, version, api);
+        }
 
         reader.endObject();
     }
@@ -81,26 +82,33 @@ public class DownloadService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
 
+        final String url = (String) intent.getExtras().get("url");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient client = new OkHttpClient();
+                Response response = null;
                 Request request = new Request.Builder()
-                        .url("http://api.learn2crack.com/android/jsonandroid/")
+                        .url(url)
                         .build();
+                OkHttpClient client = new OkHttpClient();
                 try {
-                    Response response = client.newCall(request).execute();
+                    response = client.newCall(request).execute();
                     if (response.isSuccessful()) {
                         JsonReader reader = new JsonReader(response.body().charStream());
                         readJsonData(reader);
+
+                        sqlDatabase.closeDB();
+                        Intent intent1 = new Intent("passDataToFragement1");
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e("errorMessage", e.getMessage());
+
                 }
-                Intent intent1 = new Intent("passDataToFragement1");
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+
                 stopSelf();
             }
         }).start();

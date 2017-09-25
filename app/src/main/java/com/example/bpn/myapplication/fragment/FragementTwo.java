@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.bpn.myapplication.data.BeanJsonData;
-import com.example.bpn.myapplication.activity.Main2Activity;
 import com.example.bpn.myapplication.PassData;
 import com.example.bpn.myapplication.R;
+import com.example.bpn.myapplication.activity.Main2Activity;
+import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.data.SavingDataTOSharedPrefernce;
 import com.example.bpn.myapplication.data.SqlDatabase;
 
@@ -35,24 +35,17 @@ public class FragementTwo extends Fragment implements PassData {
     ArrayAdapter arrayAdapter;
     View view;
     Main2Activity main2Activity;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
 
 //            ArrayList<BeanJsonData> data = intent.getParcelableArrayListExtra("data");
 //            for (BeanJsonData data1 : data) {
 //            list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
 //           }
-            SqlDatabase database = new SqlDatabase(getContext());
-            ArrayList<BeanJsonData> data = database.read();
+            SqlDatabase database = new SqlDatabase(context);
+            ArrayList<BeanJsonData> data = new ArrayList<>();
+            data = database.read();
             for (BeanJsonData data1 : data) {
                 list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
             }
@@ -61,6 +54,11 @@ public class FragementTwo extends Fragment implements PassData {
             arrayAdapter.notifyDataSetChanged();
         }
     };
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,

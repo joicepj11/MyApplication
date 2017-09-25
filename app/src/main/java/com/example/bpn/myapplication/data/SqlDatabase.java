@@ -23,7 +23,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
     String projection[] = new String[]{COL_NAME1, COL_NAME2, COL_NAME3};
 
     public SqlDatabase(Context context) {
-        super(context, TABLE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
 
@@ -52,13 +52,12 @@ public class SqlDatabase extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery("Select * from " + TABLE_NAME, null);
         cursor.moveToFirst();
-
-        while (cursor.isAfterLast()) {
+        while (cursor.moveToNext()) {
             String androidName = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME1));
             String androidVersion = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME2));
             String androidApi = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME3));
             data.add(new BeanJsonData(androidName, androidVersion, androidApi));
-            cursor.moveToFirst();
+//            cursor.moveToNext();
         }
 
 
@@ -76,8 +75,5 @@ public class SqlDatabase extends SQLiteOpenHelper {
         if (db != null && db.isOpen())
             db.close();
     }
-    @Override
-    public synchronized void close() {
-        super.close();
-    }
+
 }
