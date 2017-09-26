@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.example.bpn.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String url;
     Button a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +21,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     public void abc(View view) {
         startActivity(new Intent(this, PreferenceExample.class));
     }
 
     public void startMainTwoActivity(View view) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String url = sp.getString("url", null);
+        url = sp.getString("url", null);
         if (!TextUtils.isEmpty(url)) {
             if (url.equals("https://api.learn2crack.com/android/jsonandroid/")) {
                 Intent i = new Intent(this, Main2Activity.class);

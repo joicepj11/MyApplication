@@ -2,24 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
 
     <FrameLayout
-        android:background="@android:color/holo_blue_bright"
-        android:gravity="top"
         android:id="@+id/frameLayout1"
         android:layout_width="match_parent"
         android:layout_height="240dp"
+        android:background="@android:color/holo_blue_bright"
+        android:gravity="top"
         tools:background="@android:color/holo_blue_bright">
 
     </FrameLayout>
     <FrameLayout
-        android:gravity="bottom"
-        android:layout_below="@+id/frameLayout1"
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frameLayout1"
+        android:gravity="bottom">
     </FrameLayout>
 </RelativeLayout>

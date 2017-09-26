@@ -46,6 +46,21 @@ public class SqlDatabase extends SQLiteOpenHelper {
 
     }
 
+    public long insertData(String AndroidName, String AndroidVersion, String AndroidApi) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME1, AndroidName);
+        values.put(COL_NAME2, AndroidVersion);
+        values.put(COL_NAME3, AndroidApi);
+
+
+        long data = db.insert(TABLE_NAME, null, values);
+        return data;
+
+    }
+
 
     public ArrayList<BeanJsonData> read() {
         ArrayList<BeanJsonData> data = new ArrayList<>();
