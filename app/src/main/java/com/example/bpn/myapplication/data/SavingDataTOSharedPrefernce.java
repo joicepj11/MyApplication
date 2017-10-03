@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class SavingDataTOSharedPrefernce {
 
     SharedPreferences  preference ;
-    SharedPreferences.Editor editor;
+    //SharedPreferences.Editor editor;
     Context mContext ;
 
     String FIELD_NAME = "data";
@@ -44,7 +44,7 @@ public class SavingDataTOSharedPrefernce {
         String json = gson.toJson(data);
         prefrencesEditor.putString(FIELD_NAME, json);
 
-        prefrencesEditor.commit();
+        prefrencesEditor.apply();
     }
     public ArrayList<BeanJsonData> readDataFromSharedPreference(Context ctx){
 

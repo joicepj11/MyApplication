@@ -1,6 +1,7 @@
 package com.example.bpn.myapplication.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import com.example.bpn.myapplication.PassData;
 import com.example.bpn.myapplication.R;
 import com.example.bpn.myapplication.data.BeanJsonData;
+import com.example.bpn.myapplication.download.DownloadService;
 import com.example.bpn.myapplication.fragment.FragementOne;
 import com.example.bpn.myapplication.fragment.FragementTwo;
 
@@ -47,15 +49,15 @@ public class Main2Activity extends AppCompatActivity {
 
 //        mListView = (ListView) findViewById(R.id.listView);
         // list = new ArrayList<>();
-//
+
 //        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
 //        downloaderClass.execute();
-//
 
-//        Intent intent = getIntent();
-//        Intent i = new Intent(this, DownloadService.class);
-//        i.putExtra("url", intent.getExtras().get("url").toString());
-//        startService(i);
+
+        Intent intent = getIntent();
+        Intent i = new Intent(this, DownloadService.class);
+        i.putExtra("url", intent.getExtras().get("url").toString());
+        startService(i);
 
 //       callback.receiveDataFromDownloadClass();
         //LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(mIntent1);

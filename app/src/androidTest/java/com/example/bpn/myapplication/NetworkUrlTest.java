@@ -17,7 +17,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 /**
@@ -26,6 +25,7 @@ import static junit.framework.Assert.assertNull;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class NetworkUrlTest {
+    @SuppressWarnings("unchecked")
     @Rule
     public ActivityTestRule MainActivity = new ActivityTestRule(com.example.bpn.myapplication.activity.MainActivity.class);
 
@@ -38,24 +38,23 @@ public class NetworkUrlTest {
     }
 
     @Test
-    public void sharedPreference() {
+    public void testSharedPreference() {
         // scheme:[//[user[:password]@]host[:port]][/path][?query][#fragment]
-        Exception ee = null;
+        Exception exception = null;
         URI uri = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.getActivity().getApplicationContext());
         String url = sp.getString("url", null);
-        assertNotNull(url);
+        assertNull(url);
 
         try {
             uri = new URI(url);
 
+
         } catch (URISyntaxException e) {
-            ee = e;
+            exception = e;
         }
-        assertEquals("gmail.com", uri.getHost());
-        assertEquals("http", uri.getScheme());
-        assertNull(ee);
-        // assertEquals("https://api.learn2crack.com/android/jsonandroid/",url);
+        assertNull(exception);
+        assertEquals("https://api.learn2crack.com/android/jsonandroid/", url);
         onView(withId(R.id.button2)).perform(click());
     }
 

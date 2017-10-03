@@ -14,10 +14,11 @@ import java.util.concurrent.CountDownLatch;
  * Created by user on 25/9/17.
  */
 
+@SuppressWarnings("deprecation")
 public class DatabaseTestCase extends ActivityInstrumentationTestCase2<Main2Activity> {
 
     JsonReader mReader = null;
-    int mStausCode = 0;
+    int mStatusCode = 0;
     Exception mException = null;
     CountDownLatch signal;
     SqlDatabase sqLiteDatabase;

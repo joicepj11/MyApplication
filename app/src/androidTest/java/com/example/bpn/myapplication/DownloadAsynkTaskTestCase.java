@@ -15,16 +15,17 @@ import java.util.concurrent.CountDownLatch;
  * Created by user on 25/9/17.
  */
 
-public class DownloadAsynTaskTestCase extends ActivityInstrumentationTestCase2<Main2Activity> {
+@SuppressWarnings("deprecation")
+public class DownloadAsynkTaskTestCase extends ActivityInstrumentationTestCase2<Main2Activity> {
 
     JsonReader mReader = null;
-    int mStausCode = 0;
+    int mStatusCode = 0;
     Exception mException = null;
     CountDownLatch signal;
 
     Main2Activity main2Activity;
 
-    public DownloadAsynTaskTestCase() {
+    public DownloadAsynkTaskTestCase() {
         super(com.example.bpn.myapplication.activity.Main2Activity.class);
     }
 
@@ -49,9 +50,9 @@ public class DownloadAsynTaskTestCase extends ActivityInstrumentationTestCase2<M
 
 
             @Override
-            public void onComplete(JsonReader reader, int stausCode, Exception e) {
+            public void onComplete(JsonReader reader, int statusCode, Exception e) {
                 mReader = reader;
-                mStausCode = stausCode;
+                mStatusCode = statusCode;
                 mException = e;
                 signal.countDown();
             }
@@ -63,8 +64,8 @@ public class DownloadAsynTaskTestCase extends ActivityInstrumentationTestCase2<M
         }
         assertNotNull(mReader);
         Log.d("mReader", mReader.toString());
-        assertEquals(200, mStausCode);
-        Log.d("statusCode", Integer.toString(mStausCode));
+        assertEquals(200, mStatusCode);
+        Log.d("statusCode", Integer.toString(mStatusCode));
         assertNull(mException);
     }
 }

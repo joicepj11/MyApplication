@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class SqlDatabase extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static String DATABASE_NAME = "mydb.db";
-    public static String TABLE_NAME = "AndroidDeviceDetails";
-    public static String COL_NAME1 = "name";
-    public static String COL_NAME2 = "version";
-    public static String COL_NAME3 = "api";
-    String projection[] = new String[]{COL_NAME1, COL_NAME2, COL_NAME3};
+    final public static String DATABASE_NAME = "mydb.db";
+    final public static String TABLE_NAME = "AndroidDeviceDetails";
+    final public static String COL_NAME1 = "name";
+    final public static String COL_NAME2 = "version";
+    final public static String COL_NAME3 = "api";
+//    String projection[] = new String[]{COL_NAME1, COL_NAME2, COL_NAME3};
 
     public SqlDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +29,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("Create table  "+ TABLE_NAME + " ( " +COL_NAME1 + "  text, " +COL_NAME2 +  "  text, " +COL_NAME3 +   "  text ) " );
+        sqLiteDatabase.execSQL("Create table  " + TABLE_NAME + " ( " + COL_NAME1 + "  text, " + COL_NAME2 + "  text, " + COL_NAME3 + "  text ) ");
     }
 
     public void insert(String AndroidName, String AndroidVersion, String AndroidApi) {
@@ -42,7 +42,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
         values.put(COL_NAME3, AndroidApi);
 
 
-        db.insert(TABLE_NAME ,null,values);
+        db.insert(TABLE_NAME, null, values);
 
     }
 
@@ -74,6 +74,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
             data.add(new BeanJsonData(androidName, androidVersion, androidApi));
 //            cursor.moveToNext();
         }
+        cursor.close();
 
 
         return data;

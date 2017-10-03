@@ -42,6 +42,7 @@ public class FragementOne extends Fragment implements PassData {
             SqlDatabase database = new SqlDatabase(context);
             ArrayList<BeanJsonData>data = database.read();
             for (BeanJsonData data1 : data) {
+                //noinspection unchecked
                 list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
             }
             database.closeDB();
@@ -71,6 +72,7 @@ public class FragementOne extends Fragment implements PassData {
 
         mListView = view.findViewById(R.id.list_item1);
         list = new ArrayList<>();
+        //noinspection unchecked
         arrayAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.list_view_layout, R.id.text, list);
         mListView.setAdapter(arrayAdapter);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("passDataToFragement1"));
@@ -84,6 +86,7 @@ public class FragementOne extends Fragment implements PassData {
         SavingDataTOSharedPrefernce s = new SavingDataTOSharedPrefernce(getContext());
         ArrayList<BeanJsonData> beanJsonData = s.readDataFromSharedPreference(getContext());
         for (BeanJsonData data : beanJsonData) {
+            //noinspection unchecked
             list.add(data.getName() + "\n" + data.getVersion() + "  \n" + data.getApi());
         }
         getActivity().runOnUiThread(new Runnable() {

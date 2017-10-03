@@ -10,17 +10,17 @@
     tools:context="com.example.bpn.myapplication.activity.Main2Activity"
     tools:showIn="@layout/activity_main2">
     <fragment
-        android:gravity="top"
         android:id="@+id/frameLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="top">
 
     </fragment>
     <fragment
-        android:gravity="bottom"
-        android:layout_below="@+id/frameLayout1"
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frameLayout1"
+        android:gravity="bottom">
     </fragment>
 </RelativeLayout>

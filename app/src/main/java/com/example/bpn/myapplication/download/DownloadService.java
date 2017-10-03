@@ -8,7 +8,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.bpn.myapplication.activity.Utilites;
 import com.example.bpn.myapplication.data.SqlDatabase;
 
 import okhttp3.OkHttpClient;
@@ -89,25 +91,31 @@ public class DownloadService extends Service {
             @Override
             public void run() {
                 Response response = null;
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
-                OkHttpClient client = new OkHttpClient();
-                try {
-                    response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-                        JsonReader reader = new JsonReader(response.body().charStream());
-                        readJsonData(reader);
+                Utilites utilites = Utilites.getInstance();
+                if (utilites.isReachable(url) == Utilites.URLVALIDATION.REACHABLE) {
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
+                    OkHttpClient client = new OkHttpClient();
+                    try {
+                        response = client.newCall(request).execute();
+                        if (response.isSuccessful()) {
+                            JsonReader reader = new JsonReader(response.body().charStream());
+                            readJsonData(reader);
 
-                        sqlDatabase.closeDB();
-                        Intent intent1 = new Intent("passDataToFragement1");
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+                            sqlDatabase.closeDB();
+                            Intent intent1 = new Intent("passDataToFragement1");
+                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+
+                        }
+                    } catch (Exception e) {
+                        Log.e("errorMessage", e.getMessage());
 
                     }
-                } catch (Exception e) {
-                    Log.e("errorMessage", e.getMessage());
-
+                } else {
+                    Toast.makeText(getApplicationContext(), "internet not available", Toast.LENGTH_LONG).show();
                 }
+
 
                 stopSelf();
             }

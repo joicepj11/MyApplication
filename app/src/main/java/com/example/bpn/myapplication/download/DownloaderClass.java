@@ -6,14 +6,12 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.widget.Toast;
 
+import com.example.bpn.myapplication.PassData;
 import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.fragment.FragementOne;
 import com.example.bpn.myapplication.fragment.FragementTwo;
-import com.example.bpn.myapplication.PassData;
-import com.example.bpn.myapplication.data.SavingDataTOSharedPrefernce;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,9 +23,9 @@ import okhttp3.Response;
 
 public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 
-    HashSet<String> hashSet = new HashSet<>();
+    //HashSet<String> hashSet;
     BeanJsonData data;
-    ArrayList<String> arr = new ArrayList<>();
+    //ArrayList<String> arr ;
     OkHttpClient client = new OkHttpClient();
     Context ctx;
     PassData callback;
@@ -143,9 +141,9 @@ public class DownloaderClass extends AsyncTask<Object, Object, Void> {
 //        LocalBroadcastManager.getInstance(ctx).sendBroadcast(mIntent1);
 
         //Log.d("data",arr.toString());
-
-        SavingDataTOSharedPrefernce preference = new SavingDataTOSharedPrefernce(ctx);
-        preference.storeDataInSharedPreference(arraylistJsonData, ctx);
+//
+//        SavingDataTOSharedPrefernce preference = new SavingDataTOSharedPrefernce(ctx);
+//        preference.storeDataInSharedPreference(arraylistJsonData, ctx);
 
         callback.receiveDataFromDownloadClass();
         callback1.receiveDataFromDownloadClass();

@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.example.bpn.myapplication.PassData;
 import com.example.bpn.myapplication.R;
-import com.example.bpn.myapplication.activity.Main2Activity;
 import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.data.SavingDataTOSharedPrefernce;
 import com.example.bpn.myapplication.data.SqlDatabase;
@@ -23,9 +22,7 @@ import com.example.bpn.myapplication.data.SqlDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bpn on 20/09/17.
- */
+
 
 public class FragementTwo extends Fragment implements PassData {
 
@@ -34,7 +31,7 @@ public class FragementTwo extends Fragment implements PassData {
     ListView mListView;
     ArrayAdapter arrayAdapter;
     View view;
-    Main2Activity main2Activity;
+
     BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -44,9 +41,10 @@ public class FragementTwo extends Fragment implements PassData {
 //            list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
 //           }
             SqlDatabase database = new SqlDatabase(context);
-            ArrayList<BeanJsonData> data = new ArrayList<>();
+            ArrayList<BeanJsonData> data;
             data = database.read();
             for (BeanJsonData data1 : data) {
+                //noinspection unchecked
                 list.add(data1.getName() + "\n" + data1.getApi() + "\n" + data1.getVersion());
             }
             database.closeDB();
@@ -70,6 +68,7 @@ public class FragementTwo extends Fragment implements PassData {
         mListView = view.findViewById(R.id.list_item2);
         list = new ArrayList<>();
 
+        //noinspection unchecked
         arrayAdapter = new ArrayAdapter<String>(view.getContext(), R.layout.list_view_layout, R.id.text, list);
         mListView.setAdapter(arrayAdapter);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadCastReceiver, new IntentFilter("passDataToFragement1"));
@@ -105,6 +104,7 @@ public class FragementTwo extends Fragment implements PassData {
         for (int i = 0; i < beanJsonData.size(); i++) {
             BeanJsonData data = beanJsonData.get(i);
 
+            //noinspection unchecked
             list.add(data.getName() + "\n" + data.getVersion() + "  \n" + data.getApi());
 
         }

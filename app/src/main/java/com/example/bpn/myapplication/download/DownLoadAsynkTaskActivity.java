@@ -32,6 +32,7 @@ public class DownLoadAsynkTaskActivity extends AsyncTask<String, Void, JsonReade
                 return reader;
             }
         } catch (IOException e) {
+            assert response != null;
             setStatusCode(response.code());
             callback.onComplete(null, getStatusCode(), e);
             e.printStackTrace();
@@ -60,6 +61,6 @@ public class DownLoadAsynkTaskActivity extends AsyncTask<String, Void, JsonReade
     }
 
     public interface Callback {
-        void onComplete(JsonReader reader, int stausCode, Exception e);
+        void onComplete(JsonReader reader, int statusCode, Exception e);
     }
 }

@@ -7,14 +7,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.bpn.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
-    public static String url;
-    Button a;
+
+    private static String PATH = "url";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +26,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startMainTwoActivity(View view) {
+        String url;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        url = sp.getString("url", null);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("url", "https://api.learn2crack.com/android/jsonandroid/");
+        editor.apply();
+        url = sp.getString(PATH, null);
         if (!TextUtils.isEmpty(url)) {
             if (url.equals("https://api.learn2crack.com/android/jsonandroid/")) {
                 Intent i = new Intent(this, Main2Activity.class);
