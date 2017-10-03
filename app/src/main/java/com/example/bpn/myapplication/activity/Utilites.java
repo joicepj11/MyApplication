@@ -4,6 +4,10 @@ package com.example.bpn.myapplication.activity;
  * Created by user on 3/10/17.
  */
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -123,18 +127,31 @@ public class Utilites {
         return null;
     }
 
+    private boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     //
-    public URLVALIDATION isReachable(String url) {
-        try {
-            URL url1 = new URL(url);
-            URLConnection conn = url1.openConnection();
-            conn.connect();
-            return URLVALIDATION.REACHABLE;
-        } catch (MalformedURLException e) {
-            // the URL is not in a valid form
-            return URLVALIDATION.MALFORMED_URL;
-        } catch (IOException e) {
-            // the connection couldn't be established
+    public URLVALIDATION isReachable(String url, Context context) {
+
+        if (isNetworkAvailable(context)) {
+            try {
+                URL url1 = new URL(url);
+                URLConnection conn = url1.openConnection();
+                conn.setConnectTimeout(3000);
+                conn.connect();
+                return URLVALIDATION.REACHABLE;
+            } catch (MalformedURLException e) {
+                // the URL is not in a valid form
+                return URLVALIDATION.MALFORMED_URL;
+            } catch (IOException e) {
+                // the connection couldn't be established
+                return URLVALIDATION.UNREACHABLE;
+            }
+        } else {
             return URLVALIDATION.UNREACHABLE;
         }
     }

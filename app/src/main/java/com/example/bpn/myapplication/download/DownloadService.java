@@ -92,7 +92,7 @@ public class DownloadService extends Service {
             public void run() {
                 Response response = null;
                 Utilites utilites = Utilites.getInstance();
-                if (utilites.isReachable(url) == Utilites.URLVALIDATION.REACHABLE) {
+                if (utilites.isReachable(url, getApplicationContext()) == Utilites.URLVALIDATION.REACHABLE) {
                     Request request = new Request.Builder()
                             .url(url)
                             .build();
