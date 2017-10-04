@@ -53,6 +53,8 @@ public class Main2Activity extends AppCompatActivity {
 //        DownloaderClass downloaderClass = new DownloaderClass(mfrFragementTwo ,mfragementOne, getApplicationContext());
 //        downloaderClass.execute();
 
+        Utilites utilites = Utilites.getInstance();
+        utilites.isReachable("https://api.learn2crack.com/android/jsonandroid/",getApplicationContext());
 
         Intent intent = getIntent();
         Intent i = new Intent(this, DownloadService.class);

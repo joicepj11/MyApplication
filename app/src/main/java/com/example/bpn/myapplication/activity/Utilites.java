@@ -7,6 +7,7 @@ package com.example.bpn.myapplication.activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,23 +17,13 @@ import java.net.URLConnection;
 
 public class Utilites {
 
-    private static Utilites utilites;
+    private static Utilites utilites = new Utilites();
 
     private Utilites() {
-        if (utilites == null) {
-            utilites = new Utilites();
-        }
+
     }
 
     public static Utilites getInstance() {
-
-        if (utilites == null) {
-            synchronized (Utilites.class) {
-                if (utilites == null) {
-                    utilites = new Utilites();
-                }
-            }
-        }
         return utilites;
     }
 
@@ -128,32 +119,59 @@ public class Utilites {
     }
 
     private boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
+
     //
     public URLVALIDATION isReachable(String url, Context context) {
+ String TAG = "isReachable";
+        long lastTime;
+        long startTime;
+        startTime = System.currentTimeMillis();
+//        if (isNetworkAvailable(context)) {
 
-        if (isNetworkAvailable(context)) {
             try {
                 URL url1 = new URL(url);
                 URLConnection conn = url1.openConnection();
-                conn.setConnectTimeout(3000);
+                conn.setConnectTimeout(1000);
+                conn.setReadTimeout(1000);
                 conn.connect();
+                lastTime = System.currentTimeMillis();
+                Log.d(TAG, "isReachable: Reachable url "+(lastTime - startTime));
                 return URLVALIDATION.REACHABLE;
             } catch (MalformedURLException e) {
                 // the URL is not in a valid form
+                lastTime = System.currentTimeMillis();
+                Log.d(TAG, "isReachable: malformed url "+(lastTime - startTime));
                 return URLVALIDATION.MALFORMED_URL;
             } catch (IOException e) {
                 // the connection couldn't be established
+
+                lastTime = System.currentTimeMillis();
+                Log.d(TAG, "isReachable: unreachable "+(lastTime - startTime));
                 return URLVALIDATION.UNREACHABLE;
+            } catch (Exception e) {
+                lastTime = System.currentTimeMillis();
+                Log.d(TAG, "isReachable: "+(lastTime - startTime));
+                return null;
             }
-        } else {
-            return URLVALIDATION.UNREACHABLE;
-        }
+//        } else
+//            lastTime = System.currentTimeMillis();
+//        Log.d(TAG, "isReachable: "+(lastTime - startTime));
+//            return URLVALIDATION.UNREACHABLE;
     }
 
 

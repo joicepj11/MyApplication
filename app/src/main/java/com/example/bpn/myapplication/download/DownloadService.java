@@ -2,7 +2,9 @@ package com.example.bpn.myapplication.download;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.JsonReader;
@@ -92,7 +94,8 @@ public class DownloadService extends Service {
             public void run() {
                 Response response = null;
                 Utilites utilites = Utilites.getInstance();
-                if (utilites.isReachable(url, getApplicationContext()) == Utilites.URLVALIDATION.REACHABLE) {
+                Utilites.URLVALIDATION urlvalidation = utilites.isReachable(url, getApplicationContext());
+                if (urlvalidation == Utilites.URLVALIDATION.REACHABLE) {
                     Request request = new Request.Builder()
                             .url(url)
                             .build();
@@ -101,28 +104,43 @@ public class DownloadService extends Service {
                         response = client.newCall(request).execute();
                         if (response.isSuccessful()) {
                             JsonReader reader = new JsonReader(response.body().charStream());
-                            readJsonData(reader);
+                            if(!utilites.isNull(reader)) {
+                                readJsonData(reader);
+                                sqlDatabase.closeDB();
+                                Intent intent1 = new Intent("passDataToFragement1");
+                                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
+                            }else {
+                                Handler handler =new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "json data not available", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
 
-                            sqlDatabase.closeDB();
-                            Intent intent1 = new Intent("passDataToFragement1");
-                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
 
                         }
                     } catch (Exception e) {
                         Log.e("errorMessage", e.getMessage());
 
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "internet not available", Toast.LENGTH_LONG).show();
+                } else if (urlvalidation == Utilites.URLVALIDATION.UNREACHABLE) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "On mobile data or connect to wifi", Toast.LENGTH_LONG).show();
+                            }
+                        });
                 }
-
-
                 stopSelf();
             }
         }).start();
 
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {

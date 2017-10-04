@@ -27,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void startMainTwoActivity(View view) {
         String url;
+        Utilites utilites = Utilites.getInstance();
+        utilites.isReachable("https://api.learn2crack.com/android/jsonandroid/",getApplicationContext());
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("url", "https://api.learn2crack.com/android/jsonandroid/");
         editor.apply();
+        editor.commit();
         url = sp.getString(PATH, null);
         if (!TextUtils.isEmpty(url)) {
             if (url.equals("https://api.learn2crack.com/android/jsonandroid/")) {
