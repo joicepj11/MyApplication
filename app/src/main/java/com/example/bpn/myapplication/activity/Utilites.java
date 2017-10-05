@@ -271,6 +271,13 @@ public class Utilites {
         return isValidFormat;
     }
 
+    public static boolean isValidTime(final String time ,boolean is12hours){
+        if(is12hours){
+            return isValidTime12HoursFormat(time)  ;
+        }else {
+            return isValidTime24HoursFormat(time);
+        }
+    }
 
     public static boolean isValidTime24HoursFormat(final String time){
         String TIME24HOURS_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
