@@ -3,7 +3,8 @@
     package="com.example.bpn.myapplication">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -19,8 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.PreferenceExample" />
+
         <service android:name=".download.DownloadIntentService" />
-        <service android:name=".download.DownloadService"/>
+        <service android:name=".download.DownloadService" />
+
         <activity
             android:name=".activity.Main2Activity"
             android:label="@string/title_activity_main2"

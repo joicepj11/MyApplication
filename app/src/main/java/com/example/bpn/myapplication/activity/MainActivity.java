@@ -9,7 +9,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.example.bpn.myapplication.R;
+import com.jenzz.appstate.AppStateListener;
+import com.jenzz.appstate.AppStateMonitor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
 

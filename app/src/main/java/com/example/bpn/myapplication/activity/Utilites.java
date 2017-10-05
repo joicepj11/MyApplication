@@ -13,6 +13,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Utilites {
@@ -27,11 +34,11 @@ public class Utilites {
         return utilites;
     }
 
-    public Boolean isNull(Object o) {
+    public static Boolean isNull(Object o) {
         return o == null;
     }
 
-    public Enum isValidNum(Number number) {
+    public static Enum isValidNum(Number number) {
 
         if (number instanceof Integer) {
 
@@ -118,7 +125,7 @@ public class Utilites {
         return null;
     }
 
-    private boolean isNetworkAvailable(Context context) {
+    private static boolean isNetworkAvailable(Context context) {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 
@@ -136,7 +143,7 @@ public class Utilites {
     }
 
     //
-    public URLVALIDATION isReachable(String url, Context context) {
+    public static URLVALIDATION isReachable(String url, Context context) {
  String TAG = "isReachable";
         long lastTime;
         long startTime;
@@ -174,6 +181,109 @@ public class Utilites {
 //            return URLVALIDATION.UNREACHABLE;
     }
 
+    public static boolean checkBalancedParenthesis(String check)
+    {
+        Stack<Character> S = new Stack<>();
+
+        for(int a = 0; a < check.length(); a++)
+        {
+            char braceType = check.charAt(a);
+            if( braceType == '(')
+                S.push(braceType);
+
+            else if(  braceType == ')')
+            {
+                if(S.empty())
+                    return false;
+                switch(braceType)
+                {
+                    case ')':
+                        if (S.pop() != '(')
+                            return false;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        if(S.empty())
+            return true;
+        return false;
+
+    }
+
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        if(phoneNumber.contains("(")){
+            if (checkBalancedParenthesis(phoneNumber)) {
+                Pattern pattern = Pattern.compile("([+])?([0-9]|[a-zA-z]|[ ]+|[-]|[()]){5,32}");
+                Matcher matcher = pattern.matcher(phoneNumber);
+                return matcher.matches();
+                //return (matcher.matches() == true)?PHONE_NUMBER.VALID :PHONE_NUMBER.INVALID;
+            }
+            return false;
+            //return PHONE_NUMBER.PARENTHESIS_UN_MATCH;
+        }else{
+            Pattern pattern = Pattern.compile("([+])?([0-9]|[a-zA-z]|[ ]+|[-]|[()]){5,32}");
+            Matcher matcher = pattern.matcher(phoneNumber);
+            return matcher.matches();
+            //return (matcher.matches() == true)?PHONE_NUMBER.VALID :PHONE_NUMBER.INVALID;
+        }
+
+    }
+
+    public static boolean isValidZipCode(String zipCode){
+        //public static ZIP_CODE_NUMBER isValidZipCode(String zipCode){
+
+        if(zipCode.length() == 0){
+            return true;
+            //return ZIP_CODE_NUMBER.EMPTY;
+        }else{
+            Pattern pattern = Pattern.compile("([0-9]|[a-zA-z]|[-]){3,10}");
+            Matcher matcher = pattern.matcher(zipCode);
+            return matcher.matches();
+            //return (matcher.matches()==true)?ZIP_CODE_NUMBER.VALID :ZIP_CODE_NUMBER.INVALID;
+        }
+    }
+
+
+    public static boolean isValidateDateFormat(final String date) {
+        String[] formatStrings = {"DD/MM/yyyy","MM/dd/yyyy","yyyy/mm/dd"};
+        boolean isValidFormat = true;
+        Date dateObj;
+        for (String formatString : formatStrings) {
+            try {
+                SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance();
+                sdf.applyPattern(formatString);
+                sdf.setLenient(false);
+                dateObj = sdf.parse(date);
+                System.out.println(dateObj);
+                if (date.equals(sdf.format(dateObj))) {
+                    isValidFormat = true;
+                    break;
+                }
+            } catch (ParseException e) {
+                isValidFormat = false;
+            }
+        }
+        return isValidFormat;
+    }
+
+
+    public static boolean isValidTime24HoursFormat(final String time){
+        String TIME24HOURS_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+        Pattern pattern = Pattern.compile(TIME24HOURS_PATTERN);
+        Matcher matcher = pattern.matcher(time);
+        return matcher.matches();
+    }
+    public static boolean isValidTime12HoursFormat(final String time){
+        String TIME12HOURS_PATTERN = "(([1-9])|([1][1])|([1][2])):[0-5][0-9]";
+        Pattern pattern = Pattern.compile(TIME12HOURS_PATTERN);
+        Matcher matcher = pattern.matcher(time);
+        return matcher.matches();
+    }
 
     enum RANGE {
         POSITIVE,

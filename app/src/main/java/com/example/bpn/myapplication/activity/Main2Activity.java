@@ -1,6 +1,7 @@
 package com.example.bpn.myapplication.activity;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +15,17 @@ import com.example.bpn.myapplication.data.BeanJsonData;
 import com.example.bpn.myapplication.download.DownloadService;
 import com.example.bpn.myapplication.fragment.FragementOne;
 import com.example.bpn.myapplication.fragment.FragementTwo;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 
 import java.util.List;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity  implements ProviderInstaller.ProviderInstallListener{
+
+    private static final int ERROR_DIALOG_REQUEST_CODE = 1;
+
+    private boolean mRetryProviderInstall;
+
     ArrayAdapter<String> arrayAdapter;
     String data[] = null;
     ListView mListView;
@@ -34,6 +42,7 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main2);
+        ProviderInstaller.installIfNeededAsync(this, this);
 
 
         mfragementOne = new FragementOne();
@@ -67,6 +76,38 @@ public class Main2Activity extends AppCompatActivity {
         //  LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver, new IntentFilter("arrayListPassingBroadcastSender"));
 //        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_view_layout, R.id.text, list);
 //        mListView.setAdapter(arrayAdapter);
+    }
+    @Override
+    public void onProviderInstallFailed(int errorCode, Intent recoveryIntent) {
+        if (GooglePlayServicesUtil.isUserRecoverableError(errorCode)) {
+            // Recoverable error. Show a dialog prompting the user to
+            // install/update/enable Google Play services.
+            GooglePlayServicesUtil.showErrorDialogFragment(
+                    errorCode,
+                    this,
+                    ERROR_DIALOG_REQUEST_CODE,
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // The user chose not to take the recovery action
+                            onProviderInstallerNotAvailable();
+                        }
+                    });
+        } else {
+            // Google Play services is not available.
+            onProviderInstallerNotAvailable();
+        }
+    }
+    private void onProviderInstallerNotAvailable() {
+        // This is reached if the provider cannot be updated for some reason.
+        // App should consider all HTTP communication to be vulnerable, and take
+        // appropriate action.
+    }
+
+
+    @Override
+    public void onProviderInstalled() {
+        // Provider is up-to-date, app can make secure network calls.
     }
 
 
