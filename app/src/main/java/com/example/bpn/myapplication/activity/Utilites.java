@@ -141,7 +141,6 @@ public class Utilites {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-
     //
     public static URLVALIDATION isReachable(String url, Context context) {
  String TAG = "isReachable";
@@ -181,8 +180,7 @@ public class Utilites {
 //            return URLVALIDATION.UNREACHABLE;
     }
 
-    public static boolean checkBalancedParenthesis(String check)
-    {
+    public static boolean checkBalancedParenthesis(String check) {
         Stack<Character> S = new Stack<>();
 
         for(int a = 0; a < check.length(); a++)
@@ -213,7 +211,6 @@ public class Utilites {
         return false;
 
     }
-
 
     public static boolean isValidPhoneNumber(String phoneNumber) {
         if(phoneNumber.contains("(")){
@@ -247,7 +244,6 @@ public class Utilites {
             //return (matcher.matches()==true)?ZIP_CODE_NUMBER.VALID :ZIP_CODE_NUMBER.INVALID;
         }
     }
-
 
     public static boolean isValidateDateFormat(final String date) {
         String[] formatStrings = {"DD/MM/yyyy","MM/dd/yyyy","yyyy/mm/dd"};
@@ -285,6 +281,7 @@ public class Utilites {
         Matcher matcher = pattern.matcher(time);
         return matcher.matches();
     }
+
     public static boolean isValidTime12HoursFormat(final String time){
         String TIME12HOURS_PATTERN = "(([1-9])|([1][1])|([1][2])):[0-5][0-9]";
         Pattern pattern = Pattern.compile(TIME12HOURS_PATTERN);
